@@ -6,7 +6,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title mb-4 d-inline">Properties</h5>
-                    <a href="create-properties.html" class="btn btn-primary mb-4 text-center float-right ">Create
+                    <a href="{{route('admins.addProperties')}}" class="btn btn-primary mb-4 text-center float-right ">Create
                         Properties</a>
                     <a href="create-Gallery.html" class="btn btn-primary mb-4 text-center float-right mr-5">Create Gallery</a>
 

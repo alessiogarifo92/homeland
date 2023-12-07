@@ -26,7 +26,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarText">
                     @auth('admin')
-                        <ul class="navbar-nav side-nav">
+                        <ul class="navbar-nav side-nav" style="top: 76px">
                             <li class="nav-item">
                                 <a class="nav-link text-white" style="margin-left: 20px;"
                                     href="{{ route('admins.dashboard') }}">Home

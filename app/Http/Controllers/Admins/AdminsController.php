@@ -186,6 +186,65 @@ class AdminsController extends Controller
 
     }
 
+    public function storeProperties(Request $request)
+    {
+
+        //validation of input fields
+        $validatedData = $request->validate([
+            'title' => "required|unique:props,title|max:200",
+            'price' => "required",
+            'image' => "required|mimes:jpeg,png,jpg,svg",
+            'beds' => "required",
+            'baths' => "required",
+            'sq_ft' => "required",
+            'home_type' => "required",
+            'year_built' => "required",
+            'price_sqft' => "required",
+            'more_info' => "required|max:200",
+            'location' => "required|max:200",
+            'type' => "required",
+            'agent_name' => "required",
+
+        ]);
+
+        if ($validatedData) {
+
+            $newProp = new Property;
+            $newProp->title = $request->input('title');
+            $newProp->price = $request->input('price');
+
+            //check if passed image
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+
+                //get name image
+                $filename = $file->getClientOriginalName();
+
+                //store image in folder /public/images
+                $request->image->move(public_path('/assets/images'), $filename);
+            }
+
+
+            $newProp->image = $filename;
+            $newProp->beds = $request->input('beds');
+            $newProp->baths = $request->input('baths');
+            $newProp->sq_ft = $request->input('sq_ft');
+            $newProp->home_type = $request->input('home_type');
+            $newProp->year_built = $request->input('year_built');
+            $newProp->price_sqft = $request->input('price_sqft');
+            $newProp->more_info = $request->input('more_info');
+            $newProp->location = $request->input('location');
+            $newProp->type = $request->input('type');
+            $newProp->agent_name = $request->input('agent_name');
+            $newProp->save();
+
+            return redirect()->route('admins.allProperties')->with(['success' => 'New property added successfully!']);
+        }
+
+        return redirect()->route('admins.allProperties')->with(['error' => 'Error: new property creation failed. Try again!']);
+
+    }
+
     public function deleteProperties($id)
     {
 
