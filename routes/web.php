@@ -75,5 +75,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function(){
    
     Route::get('/dashboard', [App\Http\Controllers\Admins\AdminsController::class, 'index'])->name('admins.dashboard');
 
+    //admins panel
+    Route::get('/all-admins', [App\Http\Controllers\Admins\AdminsController::class, 'allAdmins'])->name('admins.all');
+    Route::get('/add-admin', [App\Http\Controllers\Admins\AdminsController::class, 'addAdmin'])->name('admins.add');
+    Route::post('/add-admin', [App\Http\Controllers\Admins\AdminsController::class, 'storeAdmin'])->name('admins.store');
 
+    //home type panel
+    Route::get('/all-home-types', [App\Http\Controllers\Admins\AdminsController::class, 'allHomeTypes'])->name('admins.allhometypes');
+    Route::get('/add-home-types', [App\Http\Controllers\Admins\AdminsController::class, 'addHomeTypes'])->name('admins.addHomeTypes');
+    Route::post('/add-home-types', [App\Http\Controllers\Admins\AdminsController::class, 'storeHomeTypes'])->name('admins.storeHomeTypes');
+    Route::get('/update-home-types/{id}', [App\Http\Controllers\Admins\AdminsController::class, 'editHomeTypes'])->name('admins.editHomeTypes');
+    Route::post('/update-home-types/{id}', [App\Http\Controllers\Admins\AdminsController::class, 'updateHomeTypes'])->name('admins.updateHomeTypes');
+    Route::any('/delete-home-types/{id}', [App\Http\Controllers\Admins\AdminsController::class, 'deleteHomeTypes'])->name('admins.deleteHomeTypes');
 });

@@ -16,7 +16,9 @@
     <div id="wrapper">
         <nav class="navbar header-top fixed-top navbar-expand-lg  navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" href="{{route('admins.dashboard')}}"><img src="https://graphicsfamily.com/wp-content/uploads/edd/2022/11/Luxury-Real-Estate-Logo-Design-scaled.jpg" alt="" style="width: 50px; height: 50px; border-radius: 15px;"></a>
+                <a class="navbar-brand" href="{{ route('admins.dashboard') }}"><img
+                        src="https://graphicsfamily.com/wp-content/uploads/edd/2022/11/Luxury-Real-Estate-Logo-Design-scaled.jpg"
+                        alt="" style="width: 50px; height: 50px; border-radius: 15px;"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
                     aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -32,10 +34,10 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="admins/admins.html" style="margin-left: 20px;">Admins</a>
+                                <a class="nav-link" href="{{ route('admins.all') }}" style="margin-left: 20px;">Admins</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="hometypes-admins/show-hometype.html"
+                                <a class="nav-link" href="{{route('admins.allhometypes')}}"
                                     style="margin-left: 20px;">Hometypes</a>
                             </li>
                             <li class="nav-item">
@@ -97,6 +99,76 @@
         </div>
     </div>
     <script type="text/javascript"></script>
+    <script>
+        var myInput = document.getElementById("psw");
+        var letter = document.getElementById("letter");
+        var capital = document.getElementById("capital");
+        var specChar = document.getElementById("specChar");
+        var number = document.getElementById("number");
+        var length = document.getElementById("length");
+
+        // When the user clicks on the password field, show the message box
+        myInput.onfocus = function() {
+            document.getElementById("message").style.display = "block";
+        }
+
+        // When the user clicks outside of the password field, hide the message box
+        myInput.onblur = function() {
+            document.getElementById("message").style.display = "none";
+        }
+
+        // When the user starts to type something inside the password field
+        myInput.onkeyup = function() {
+            // Validate lowercase letters
+            var lowerCaseLetters = /[a-z]/g;
+            if (myInput.value.match(lowerCaseLetters)) {
+                letter.classList.remove("invalid");
+                letter.classList.add("valid");
+            } else {
+                letter.classList.remove("valid");
+                letter.classList.add("invalid");
+            }
+
+            // Validate capital letters
+            var upperCaseLetters = /[A-Z]/g;
+            if (myInput.value.match(upperCaseLetters)) {
+                capital.classList.remove("invalid");
+                capital.classList.add("valid");
+            } else {
+                capital.classList.remove("valid");
+                capital.classList.add("invalid");
+            }
+
+            // Validate numbers
+            var numbers = /[0-9]/g;
+            if (myInput.value.match(numbers)) {
+                number.classList.remove("invalid");
+                number.classList.add("valid");
+            } else {
+                number.classList.remove("valid");
+                number.classList.add("invalid");
+            }
+
+            // Validate special characters
+            var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+            if (myInput.value.match(format)) {
+                specChar.classList.remove("invalid");
+                specChar.classList.add("valid");
+            } else {
+                specChar.classList.remove("valid");
+                specChar.classList.add("invalid");
+            }
+
+            // Validate length
+            if (myInput.value.length >= 8) {
+                length.classList.remove("invalid");
+                length.classList.add("valid");
+            } else {
+                length.classList.remove("valid");
+                length.classList.add("invalid");
+            }
+        }
+    </script>
 </body>
 
 </html>
