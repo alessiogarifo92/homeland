@@ -87,4 +87,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function(){
     Route::get('/update-home-types/{id}', [App\Http\Controllers\Admins\AdminsController::class, 'editHomeTypes'])->name('admins.editHomeTypes');
     Route::post('/update-home-types/{id}', [App\Http\Controllers\Admins\AdminsController::class, 'updateHomeTypes'])->name('admins.updateHomeTypes');
     Route::any('/delete-home-types/{id}', [App\Http\Controllers\Admins\AdminsController::class, 'deleteHomeTypes'])->name('admins.deleteHomeTypes');
+    
+    //properties panel
+    Route::get('/all-properties', [App\Http\Controllers\Admins\AdminsController::class, 'allProperties'])->name('admins.allProperties');
+    // Route::get('/add-properties', [App\Http\Controllers\Admins\AdminsController::class, 'addProperties'])->name('admins.addProperties');
+    // Route::post('/add-properties', [App\Http\Controllers\Admins\AdminsController::class, 'storeProperties'])->name('admins.storeProperties');
+    // Route::get('/update-properties/{id}', [App\Http\Controllers\Admins\AdminsController::class, 'editProperties'])->name('admins.editProperties');
+    // Route::post('/update-properties/{id}', [App\Http\Controllers\Admins\AdminsController::class, 'updateProperties'])->name('admins.updateProperties');
+    Route::any('/delete-properties/{id}', [App\Http\Controllers\Admins\AdminsController::class, 'deleteProperties'])->name('admins.deleteProperties');
 });

@@ -169,4 +169,35 @@ class AdminsController extends Controller
 
         return redirect()->route('admins.allhometypes')->with(['error' => 'Error: home type selected not deleted. Try again!']);
     }
+
+    public function allProperties()
+    {
+
+        $properties = Property::all();
+
+        return view('admins.allProperties', compact('properties'));
+
+    }
+
+    public function addProperties()
+    {
+
+        return view('admins.addProperties');
+
+    }
+
+    public function deleteProperties($id)
+    {
+
+        $property = Property::findOrFail($id);
+
+        if ($property) {
+
+            $property->delete();
+
+            return redirect()->route('admins.allProperties')->with(['success' => 'Property deleted successfully!']);
+        }
+
+        return redirect()->route('admins.allProperties')->with(['error' => 'Error: property selected not deleted. Try again!']);
+    }
 }
