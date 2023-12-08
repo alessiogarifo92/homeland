@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admins;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Admin;
 use App\Models\Prop\HomeType;
+use App\Models\Prop\Prop_image;
 use App\Models\Prop\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -245,12 +246,85 @@ class AdminsController extends Controller
 
     }
 
+
+    public function addGallery()
+    {
+
+        $properties = Property::select('id', 'title')->get();
+
+        return view('admins.create-gallery', compact('properties'));
+
+    }
+
+    public function storeGallery(Request $request)
+    {
+
+        //validation of input fields
+        $validatedData = $request->validate([
+            'prop_id' => "required",
+            'image' => "required|mimes:jpeg,png,jpg,svg",
+
+        ]);
+
+        if ($validatedData) {
+
+            $newPropImg = new Prop_image;
+            $newPropImg->prop_id = $request->input('prop_id');
+
+            //check if passed image
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+
+                //get name image
+                $filename = $file->getClientOriginalName();
+
+                //store image in folder /public/images
+                $request->image->move(public_path('/assets/images'), $filename);
+            }
+
+
+            $newPropImg->image = $filename;
+
+            $newPropImg->save();
+
+            return redirect()->route('admins.allProperties')->with(['success' => 'New property image added to galley!']);
+        }
+
+        return redirect()->route('admins.allProperties')->with(['error' => 'Error: new property image gallery creation failed. Try again!']);
+
+    }
+
     public function deleteProperties($id)
     {
 
         $property = Property::findOrFail($id);
 
         if ($property) {
+
+            //find gallery images for this property
+            $galleryImages = Prop_image::where('prop_id', $id)->pluck('image')->toArray();
+
+            if (count($galleryImages) > 0) {
+
+                //add property image to delete either
+                $galleryImages[] = $property->image;
+
+                foreach ($galleryImages as $galleryImage) {
+
+                    //check image file exists in path and delete it
+                    if (file_exists(public_path('assets/images/' . $galleryImage))) {
+                        unlink(public_path('assets/images/' . $galleryImage));
+                    } else {
+                        continue;
+                    }
+                }
+            } else {
+                //check and delete only property image
+                if (file_exists(public_path('assets/images/' . $property->image))) {
+                    unlink(public_path('assets/images/' . $property->image));
+                }
+            }
+
 
             $property->delete();
 

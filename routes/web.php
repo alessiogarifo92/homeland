@@ -92,6 +92,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function(){
     Route::get('/all-properties', [App\Http\Controllers\Admins\AdminsController::class, 'allProperties'])->name('admins.allProperties');
     Route::get('/add-properties', [App\Http\Controllers\Admins\AdminsController::class, 'addProperties'])->name('admins.addProperties');
     Route::post('/add-properties', [App\Http\Controllers\Admins\AdminsController::class, 'storeProperties'])->name('admins.storeProperties');
+    
+    //gallery images
+    Route::get('/add-properties-gallery', [App\Http\Controllers\Admins\AdminsController::class, 'addGallery'])->name('admins.addGallery');
+    Route::post('/add-properties-gallery', [App\Http\Controllers\Admins\AdminsController::class, 'storeGallery'])->name('admins.storeGallery');
+    
+    
     // Route::get('/update-properties/{id}', [App\Http\Controllers\Admins\AdminsController::class, 'editProperties'])->name('admins.editProperties');
     // Route::post('/update-properties/{id}', [App\Http\Controllers\Admins\AdminsController::class, 'updateProperties'])->name('admins.updateProperties');
     Route::any('/delete-properties/{id}', [App\Http\Controllers\Admins\AdminsController::class, 'deleteProperties'])->name('admins.deleteProperties');
