@@ -10,7 +10,8 @@
                         @csrf
                         <div class="mb-3">
                             <label for="formFileMultiple" class="form-label">Property Images</label>
-                            <input name="image" class="form-control" type="file" id="formFileMultiple" multiple>
+                            {{-- insert name[] to get multiple info otherwise it will get just one file --}}
+                            <input name="image[]" class="form-control" type="file" id="formFileMultiple" multiple>
                         </div>
                         <select name="prop_id" class="form-control mt-3 mb-4 form-select"
                             aria-label="Default select example">

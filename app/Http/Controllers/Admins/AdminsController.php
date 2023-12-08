@@ -260,38 +260,28 @@ class AdminsController extends Controller
     public function storeGallery(Request $request)
     {
 
-        //validation of input fields
-        $validatedData = $request->validate([
-            'prop_id' => "required",
-            'image' => "required|mimes:jpeg,png,jpg,svg",
-
-        ]);
-
-        if ($validatedData) {
-
-            $newPropImg = new Prop_image;
-            $newPropImg->prop_id = $request->input('prop_id');
-
-            //check if passed image
-            if ($request->hasFile('image')) {
-                $file = $request->file('image');
+        //check if passed images
+        if ($request->hasFile('image')) {
+            $files = $request->file('image');
+            foreach ($files as $file) {
 
                 //get name image
                 $filename = $file->getClientOriginalName();
 
                 //store image in folder /public/images
-                $request->image->move(public_path('/assets/images'), $filename);
+                $file->move(public_path('/assets/images'), $filename);
+
+                $newPropImg = new Prop_image;
+                $newPropImg->prop_id = $request->input('prop_id');
+                $newPropImg->image = $filename;
+
+                $newPropImg->save();
             }
 
-
-            $newPropImg->image = $filename;
-
-            $newPropImg->save();
-
-            return redirect()->route('admins.allProperties')->with(['success' => 'New property image added to galley!']);
         }
 
-        return redirect()->route('admins.allProperties')->with(['error' => 'Error: new property image gallery creation failed. Try again!']);
+
+        return redirect()->route('admins.allProperties')->with(['success' => 'New property images added to galley!']);
 
     }
 
