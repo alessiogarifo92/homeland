@@ -10,6 +10,7 @@ use App\Models\Prop\Property;
 use App\Models\Prop\RequestInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use DB;
 
 class AdminsController extends Controller
 {
@@ -293,14 +294,17 @@ class AdminsController extends Controller
         if ($property) {
 
             //find gallery images for this property
-            $galleryImages = Prop_image::where('prop_id', $id)->pluck('image')->toArray();
+            // $galleryImages = Prop_image::where('prop_id', $id)->get();
+            $galleryImages = Prop_image::where('prop_id', $id)->pluck('image','id')->toArray();
 
+            $allIds = array_keys($galleryImages);
+           
             if (count($galleryImages) > 0) {
 
                 //add property image to delete either
                 $galleryImages[] = $property->image;
 
-                foreach ($galleryImages as $galleryImage) {
+                foreach ($galleryImages as $idKey => $galleryImage) {
 
                     //check image file exists in path and delete it
                     if (file_exists(public_path('assets/images/' . $galleryImage))) {
@@ -316,8 +320,9 @@ class AdminsController extends Controller
                 }
             }
 
-
+            //delete property and prop_images records
             $property->delete();
+            DB::table('prop_images')->whereIn('id',$allIds)->delete();
 
             return redirect()->route('admins.allProperties')->with(['success' => 'Property deleted successfully!']);
         }
