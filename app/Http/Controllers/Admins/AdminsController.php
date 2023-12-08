@@ -7,6 +7,7 @@ use App\Models\Admin\Admin;
 use App\Models\Prop\HomeType;
 use App\Models\Prop\Prop_image;
 use App\Models\Prop\Property;
+use App\Models\Prop\RequestInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -332,5 +333,15 @@ class AdminsController extends Controller
         }
 
         return redirect()->route('admins.allProperties')->with(['error' => 'Error: property selected not deleted. Try again!']);
+    }
+
+
+    public function allRequests()
+    {
+
+        $requests = RequestInfo::all();
+
+        return view('admins.allRequests', compact('requests'));
+
     }
 }
